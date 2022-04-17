@@ -9,6 +9,13 @@ export interface RegisterUserInterface {
     username: string;
 }
 
+export interface UserUpdatableData {
+    email?: string,
+    bio?: string,
+    image?: string,
+    username?: string
+}
+
 @Injectable()
 export class UsersRepository {
 
@@ -25,5 +32,38 @@ export class UsersRepository {
                 email
             }
         });
+    }
+
+    async findUserById(id: number): Promise<User | undefined> {
+        return this.prisma.user.findUnique({
+            where: {
+                id
+            },
+            select: {
+                id: true,
+                email: true,
+                username: true,
+                bio: true,
+                image: true,
+            }
+        });
+    }
+
+    async updateUserById(id: number, data: UserUpdatableData): Promise<User | undefined> {
+        return this.prisma.user.update({
+            where: {
+                id: id
+            },
+            data: {
+                ...data
+            },
+            select: {
+                id: true,
+                email: true,
+                username: true,
+                bio: true,
+                image: true,
+            }
+        })
     }
 }
