@@ -8,15 +8,18 @@ export class ArticlesRepository {
     constructor(private prisma: PrismaService) {}
 
 
-    async queryArticles({offset,limit}): Promise<any> {
+    async queryArticles(selectQuery): Promise<any> {
         return this.prisma.article.findMany({
-            skip: offset,
-            take: limit,
+            where: selectQuery.where,
+            skip: selectQuery.offset,
+            take: selectQuery.limit,
         });
     }
 
-    async countArticles(): Promise<any> {
-        return this.prisma.article.count();
+    async countArticles(selectQuery): Promise<any> {
+        return this.prisma.article.count({
+            where: selectQuery.where
+        });
     }
 
 }
