@@ -1,7 +1,8 @@
-import {Body, Controller, Get, Param, Post, Query, Request} from '@nestjs/common';
+import {Body, Controller, Get, Param, Post, Query} from '@nestjs/common';
 import {ArticlesService} from "./articles.service";
 import {Article} from "../shared/types/articles";
 import {NoAuthRequired} from "../shared/public.decorator";
+import {User} from "../shared/user.decorator";
 
 @Controller('articles')
 export class ArticlesController {
@@ -28,8 +29,8 @@ export class ArticlesController {
     }
 
     @Post()
-    async createArticle(@Request() req, @Body('article') body: Article) {
-        const newArticle = await this.articlesService.createNewArticle(req.user, body);
-        return {article: newArticle, user: req.user};
+    async createArticle(@User() user, @Body('article') body: Article) {
+        const newArticle = await this.articlesService.createNewArticle(user, body);
+        return {article: newArticle, user: user};
     }
 }

@@ -4,6 +4,7 @@ import {RegisterUserDTO} from "./dto/RegisterUserDTO";
 import {LocalAuthGuard} from "../local.auth-guard";
 import {UserUpdatableData} from "../users.repository";
 import {NoAuthRequired} from "../../shared/public.decorator";
+import {User} from "../../shared/user.decorator";
 
 @Controller()
 export class AuthController {
@@ -25,14 +26,14 @@ export class AuthController {
     }
 
     @Get('user')
-    async getCurrentUser(@Request() req): Promise<any> {
-        const user = await this.authService.getUserById(req.user.id);
+    async getCurrentUser(@User('id') userId: number): Promise<any> {
+        const user = await this.authService.getUserById(userId);
         return { user };
     }
 
     @Put('user')
-    async updateCurrentUser(@Request() req, @Body('user') userPatchData: UserUpdatableData): Promise<any> {
-        const user = await this.authService.updateUserById(req.user.id, userPatchData);
+    async updateCurrentUser(@User('id') userId: number, @Body('user') userPatchData: UserUpdatableData): Promise<any> {
+        const user = await this.authService.updateUserById(userId, userPatchData);
         return { user };
     }
 }
