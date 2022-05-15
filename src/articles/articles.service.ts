@@ -59,7 +59,7 @@ export class ArticlesService {
         return title.trim().toLowerCase()
             .replace(/[^\w\s-]/g, '')
             .replace(/[\s_-]+/g, '-')
-            .replace(/^-+|-+$/g, '')
+            .replace(/ ^-+|-+$/g, '')
             .concat('-')
             .concat((Math.random() * Math.pow(36, 6) | 0).toString(36));
     }
