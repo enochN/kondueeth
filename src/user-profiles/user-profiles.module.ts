@@ -13,7 +13,7 @@ import {JwtStrategy} from "./jwt.strategy";
     controllers: [AuthController],
     imports: [PassportModule, JwtModule.register({
         secret: jwtConstants.secret,
-        signOptions: { expiresIn: '10m' }
+        signOptions: { expiresIn: '60m' }
     })],
     providers: [AuthService, PrismaService, UsersRepository, LocalStrategy, JwtStrategy]
 })
